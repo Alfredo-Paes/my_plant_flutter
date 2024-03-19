@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_plant_flutter/login_page_my_plant.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,11 +11,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        body: SafeArea(
-          child: Container(),
-        ),
-      ),
+      debugShowCheckedModeBanner: false,
+      home: LoginPageMyPlant(key: key),
     );
   }
 }
