@@ -11,33 +11,31 @@ class _LoginPageMyPlantState extends State<LoginPageMyPlant> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[300],
+      backgroundColor: const Color(0xFFF7EEDD),
       body: SafeArea(
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Icon(
-                Icons.phone_android,
-                size: 100
-              ),
-              const SizedBox(height: 75),
-              const Text(
-                'Hello Again!',
-                style: TextStyle(
-                  fontSize: 40.00,
-                  fontFamily: 'Bebas Neue',
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
+              const SizedBox(
+                width: 310,
+                height: 310,
+                child: Image(
+                  image: AssetImage('images/my_plant_logo01.png'),
                 ),
               ),
               const SizedBox(height: 10),
-              const Text('Welcome back, you\'ve been misse!',
+              const Text(
+                'Minha Planta',
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 40.00,
+                  fontFamily: 'Bebas Neue',
+                  color: Color(0xFF76453B),
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-              const SizedBox(height: 20),
+              
+              const SizedBox(height: 10),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: Container(
@@ -57,7 +55,7 @@ class _LoginPageMyPlantState extends State<LoginPageMyPlant> {
                   )
                 )
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: Container(
@@ -72,19 +70,19 @@ class _LoginPageMyPlantState extends State<LoginPageMyPlant> {
                       obscureText: true, //ocultar caractéres
                       decoration: InputDecoration(
                         border: InputBorder.none,
-                        hintText: 'Password',
+                        hintText: 'Senha',
                       ),
                     ),
                   )
                 )
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: Container(
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
-                    color: Colors.deepPurple, 
+                    color: Color(0xFF1E6F5C), 
                     borderRadius: BorderRadius.circular(12)
                   ),
                   child: const Center(
@@ -101,11 +99,11 @@ class _LoginPageMyPlantState extends State<LoginPageMyPlant> {
               const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Not a member?',
+                  Text('Possui registro?',
                   style: TextStyle(fontWeight: FontWeight.bold)),
-                  Text(' Register now',
+                  Text(' Entre agora!',
                   style: TextStyle(
-                    color: Colors.blue,
+                    color: Color(0xFF008DDA),
                     fontWeight: FontWeight.bold
                   ),)
                 ],
