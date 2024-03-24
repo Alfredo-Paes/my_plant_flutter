@@ -10,3 +10,4 @@ Project created for postgraduate mobile application development - hybrid develop
  Link 03: https://colorhunt.co/palette/008dda41c9e2ace2e1f7eedd
  Link 04: https://colorhunt.co/palette/43766cf8fae5b1947076453b
  Link 05: https://colorhunt.co/palette/eac696c8ae7d76582765451f
+ Link 06: https://colorhunt.co/palette/cece5affe17bfd8d14c51605
