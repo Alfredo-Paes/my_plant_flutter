@@ -1,30 +1,49 @@
-import "package:firebase_auth/firebase_auth.dart";
-import "package:flutter/material.dart";
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 
-class LoginPageMyPlant extends StatefulWidget {
-  const LoginPageMyPlant({super.key});
+class RegisterPageMyPlant extends StatefulWidget {
+
+  final VoidCallback showLoginPage;
+
+  const RegisterPageMyPlant({
+    Key? key,
+    required this.showLoginPage,
+  }): super(key: key);
 
   @override
-  State<LoginPageMyPlant> createState() => _LoginPageMyPlantState();
+  State<RegisterPageMyPlant> createState() => _RegisterPageMyPlantState();
 }
 
-class _LoginPageMyPlantState extends State<LoginPageMyPlant> {
+class _RegisterPageMyPlantState extends State<RegisterPageMyPlant> {
   //controllers
   final _emailcontroller = TextEditingController();
   final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
 
-  //Função responsável para login
-  Future signIn() async {
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: _emailcontroller.text.trim(), 
-      password: _passwordController.text.trim()
-    );
-    print('clicou');
+
+  Future signUp() async {
+    if (passwordIsConfirmed()) {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: _emailcontroller.text.trim(), 
+        password: _passwordController.text.trim(),
+      );
+    }
   }
 
+  bool passwordIsConfirmed() {
+    if (_passwordController.text.trim() == _confirmPasswordController.text.trim()) {
+      print('verdadeiro');
+      return true;
+    } else {
+      print('falso');
+      return false;
+    }
+  }
+  
   @override
   void dispose() {
     _emailcontroller.dispose();
+    _passwordController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
@@ -37,17 +56,17 @@ class _LoginPageMyPlantState extends State<LoginPageMyPlant> {
         child: Center(
           child: SingleChildScrollView(
             child:
-              Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+              Column(mainAxisAlignment: MainAxisAlignment.start, children: [
               const SizedBox(
-                width: 310,
-                height: 310,
+                width: 150,
+                height: 150,
                 child: Image(
-                  image: AssetImage('images/my_plant_logo01.png'),
+                  image: AssetImage('images/my_plant_seed01.png'),
                 ),
               ),
               const SizedBox(height: 10),
               const Text(
-                'Minha Planta',
+                'Cadastro',
                 style: TextStyle(
                   fontSize: 40.00,
                   fontFamily: 'Bebas Neue',
@@ -104,8 +123,30 @@ class _LoginPageMyPlantState extends State<LoginPageMyPlant> {
 
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                child: TextField(
+                  controller: _confirmPasswordController,
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(color: Colors.white),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(color: Color(0xFF76453B)),
+                      borderRadius: BorderRadius.circular(12)
+                    ),
+                    hintText: 'Confirmar senha',
+                    fillColor: Colors.grey[200],
+                    filled: true               
+                  ),
+                )
+              ),
+              const SizedBox(height: 10),
+
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: GestureDetector(
-                  onTap: signIn,
+                  onTap: signUp,
                     
                   child: Container(
                     padding: const EdgeInsets.all(20),
@@ -114,7 +155,7 @@ class _LoginPageMyPlantState extends State<LoginPageMyPlant> {
                         borderRadius: BorderRadius.circular(12)),
                     child: const Center(
                       child: Text(
-                        'Entrar',
+                        'Cadastrar',
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
@@ -127,15 +168,21 @@ class _LoginPageMyPlantState extends State<LoginPageMyPlant> {
               ),
               const SizedBox(height: 10),
 
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Possui registro?',
-                      style: TextStyle(fontWeight: FontWeight.bold)),
-                  Text(
-                    ' Cadastrar.',
+                  const Text('Já tenho cadastro!',
                     style: TextStyle(
+                      fontWeight: FontWeight.bold
+                    )
+                  ),
+                  GestureDetector(
+                    onTap: widget.showLoginPage,
+                    child: const Text(
+                      ' Entrar',
+                      style: TextStyle(
                         color: Color(0xFF008DDA), fontWeight: FontWeight.bold),
+                    ),
                   )
                 ],
               )
