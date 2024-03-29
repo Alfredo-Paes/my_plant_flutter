@@ -1,8 +1,10 @@
 import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/material.dart";
+import "package:my_plant_flutter/pages/forgot_password_page_my_plant.dart";
 
 class LoginPageMyPlant extends StatefulWidget {
-  const LoginPageMyPlant({super.key});
+  final VoidCallback showRegisterPage;
+  const LoginPageMyPlant({super.key, required this.showRegisterPage});
 
   @override
   State<LoginPageMyPlant> createState() => _LoginPageMyPlantState();
@@ -19,7 +21,6 @@ class _LoginPageMyPlantState extends State<LoginPageMyPlant> {
       email: _emailcontroller.text.trim(), 
       password: _passwordController.text.trim()
     );
-    print('clicou');
   }
 
   @override
@@ -104,6 +105,31 @@ class _LoginPageMyPlantState extends State<LoginPageMyPlant> {
 
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(context,
+                         MaterialPageRoute(builder: (context) {
+                            return ForgotPasswordPagemyPlant();
+                         })
+                        );
+                      },
+                      child: const Text(
+                        'Esqueci a senha.',
+                        style: TextStyle(
+                          color: Color(0xFF008DDA), fontWeight: FontWeight.bold)
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              const SizedBox(height: 10),
+
+              //Botão de entrar
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: GestureDetector(
                   onTap: signIn,
                     
@@ -127,15 +153,21 @@ class _LoginPageMyPlantState extends State<LoginPageMyPlant> {
               ),
               const SizedBox(height: 10),
 
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Possui registro?',
-                      style: TextStyle(fontWeight: FontWeight.bold)),
-                  Text(
-                    ' Cadastrar.',
+                  const Text('Possui registro?',
                     style: TextStyle(
-                        color: Color(0xFF008DDA), fontWeight: FontWeight.bold),
+                      fontWeight: FontWeight.bold
+                    )
+                  ),
+                  GestureDetector(
+                    onTap: widget.showRegisterPage,
+                    child: const Text(
+                      ' Cadastrar.',
+                      style: TextStyle(
+                          color: Color(0xFF008DDA), fontWeight: FontWeight.bold),
+                    ),
                   )
                 ],
               )

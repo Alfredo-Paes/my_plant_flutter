@@ -18,7 +18,13 @@ class _HomePageMyPlantState extends State<HomePageMyPlant> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center, 
           children: [
-            Text('Logado como: ${user?.email}')
+            Text('Logado como: ${user?.email}'),
+            MaterialButton(onPressed: (){
+              FirebaseAuth.instance.signOut();
+            },
+            color: Colors.deepPurple[200],
+            child: const Text('Sair'),
+            )
           ],
         ),
       ),
