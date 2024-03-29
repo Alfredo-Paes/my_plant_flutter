@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_plant_flutter/auth/auth_page_my_plant.dart';
 import 'package:my_plant_flutter/pages/home_page_my_pant.dart';
-import 'package:my_plant_flutter/pages/login_page_my_plant.dart';
 
 class MainPageMyPlant extends StatelessWidget {
   const MainPageMyPlant({super.key});
@@ -14,9 +13,9 @@ class MainPageMyPlant extends StatelessWidget {
         stream: FirebaseAuth.instance.authStateChanges(), 
         builder: (context, snapshot) { 
           if(snapshot.hasData) {
-            return HomePageMyPlant();
+            return const HomePageMyPlant();
           } else {
-            return AuthPageMyPlant();
+            return const AuthPageMyPlant();
           }
          },
       ),
