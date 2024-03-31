@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_plant_flutter/pages/login_page_my_plant.dart';
-import 'package:my_plant_flutter/pages/register_page_my_plant.dart';
+import 'package:my_plant_flutter/pages/register_user_page_my_plant.dart';
 
 class AuthPageMyPlant extends StatefulWidget {
   const AuthPageMyPlant({super.key});
@@ -24,7 +24,7 @@ class _AuthPageMyPlantState extends State<AuthPageMyPlant> {
     if (showLoginPage) {
       return LoginPageMyPlant(showRegisterPage: toggleScreens);
     } else {
-      return RegisterPageMyPlant(showLoginPage: toggleScreens);
+      return RegisterUserPageMyPlant(showLoginPage: toggleScreens);
     }
   }
 }
