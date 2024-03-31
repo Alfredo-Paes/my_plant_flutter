@@ -84,29 +84,7 @@ class _ForgotPasswordPagemyPlantState extends State<ForgotPasswordPagemyPlant> {
                 )
               ),
               const SizedBox(height: 10),
-              //Botão de enviar
-              /*Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                child: GestureDetector(
-                  onTap: sendEmail,
-                  child: Container(
-                    padding: const EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                        color: const Color(0xFF1E6F5C),
-                        borderRadius: BorderRadius.circular(12)),
-                    child: const Center(
-                      child: Text(
-                        'Enviar',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),*/
+              
               MaterialButton(
                 color: const Color(0xFF1E6F5C),
                 onPressed: sendEmail, 

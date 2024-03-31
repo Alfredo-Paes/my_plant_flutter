@@ -2,76 +2,72 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class RegisterPageMyPlant extends StatefulWidget {
+import '../components/side_bar_my_plant.dart';
 
-  final VoidCallback showLoginPage;
+class RegisterPlantPageMyPlant extends StatefulWidget {
 
-  const RegisterPageMyPlant({
-    Key? key,
-    required this.showLoginPage,
-  }): super(key: key);
+  //final VoidCallback showLoginPage;
+
+  const RegisterPlantPageMyPlant({super.key});
 
   @override
-  State<RegisterPageMyPlant> createState() => _RegisterPageMyPlantState();
+  State<RegisterPlantPageMyPlant> createState() => _RegisterPlantPageMyPlantState();
 }
 
-class _RegisterPageMyPlantState extends State<RegisterPageMyPlant> {
+class _RegisterPlantPageMyPlantState extends State<RegisterPlantPageMyPlant> {
   //controllers
-  final _emailcontroller = TextEditingController();
-  final _passwordController = TextEditingController();
-  final _confirmPasswordController = TextEditingController();
-  final _firstNameController = TextEditingController();
-  final _lastNameController = TextEditingController();
+  final _namePlantController = TextEditingController();
+  final _typePlantController = TextEditingController();
+  final _validityOfPlantingLandController = TextEditingController();
+  final _timeToWaterThePlantController = TextEditingController();
 
   @override
   void dispose() {
-    _emailcontroller.dispose();
-    _passwordController.dispose();
-    _confirmPasswordController.dispose();
-    _firstNameController.dispose();
-    _lastNameController.dispose();
+    _namePlantController.dispose();
+    _typePlantController.dispose();
+    _validityOfPlantingLandController.dispose();
+    _timeToWaterThePlantController.dispose();
     super.dispose();
   }
 
-  Future signUp() async {
-    if (passwordIsConfirmed()) {
-      // Criação de usuário
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: _emailcontroller.text.trim(), 
-        password: _passwordController.text.trim(),
+  Future registerPlant() async {
+    addPlantDetails(
+        _namePlantController.text.trim(),
+        _typePlantController.text.trim(),
+        _validityOfPlantingLandController.text.trim(),
+        _timeToWaterThePlantController.text.trim(),
       );
-      //Adicionar detalhes do usuário
-      addUserDetails(
-        _firstNameController.text.trim(),
-        _lastNameController.text.trim(),
-        _emailcontroller.text.trim()
-      );
-    }
   }
 
-  Future addUserDetails(String firstName, String lastName, String email) async {
+  Future addPlantDetails(String namePlant, String typePlant, String validityOfPlantingLand, String timeToWaterThePlant) async {
     await FirebaseFirestore.instance.collection('users').add({
-      'first name': firstName,
-      'last name': lastName,
-      'email': email,
+      'namePlant': namePlant,
+      'typePlant': typePlant,
+      'validityOfPlantingLand': validityOfPlantingLand,
+      'timeToWaterThePlant': timeToWaterThePlant,
     }).then((DocumentReference doc) => print('DocumentSnapshot added with ID: ${doc.id}'));
   }
 
-  bool passwordIsConfirmed() {
-    //Validação para confirmação de senha
-    if (_passwordController.text.trim() == _confirmPasswordController.text.trim()) {
-      return true;
-    } else {
-      return false;
-    }
-  }
+  
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF7EEDD),
-      body: SafeArea(
-        child: Center(
+      appBar: AppBar(
+        backgroundColor: const Color(0xFF76453B),
+        elevation: 0,
+        foregroundColor: const Color(0xFFF7EEDD),
+        title: const Text("Cadastrar Planta",
+        style: TextStyle(
+          //fontSize: 40.00,
+          //fontFamily: 'Bebas Neue',
+          color: Color(0xFFF7EEDD),
+          fontWeight: FontWeight.bold,
+        )),
+      ),
+      body: Center(
+        //child: Center(
           child: SingleChildScrollView(
             child:
               Column(mainAxisAlignment: MainAxisAlignment.start, children: [
@@ -84,7 +80,7 @@ class _RegisterPageMyPlantState extends State<RegisterPageMyPlant> {
               ),
               const SizedBox(height: 10),
               const Text(
-                'Cadastro',
+                'Minha Planta',
                 style: TextStyle(
                   fontSize: 40.00,
                   fontFamily: 'Bebas Neue',
@@ -94,11 +90,10 @@ class _RegisterPageMyPlantState extends State<RegisterPageMyPlant> {
               ),
               const SizedBox(height: 10),
 
-              //First Name
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: TextField(
-                  controller: _firstNameController,
+                  controller: _namePlantController,
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
                       borderSide: const BorderSide(color: Colors.white),
@@ -108,7 +103,7 @@ class _RegisterPageMyPlantState extends State<RegisterPageMyPlant> {
                       borderSide: const BorderSide(color:Color(0xFF76453B)),
                       borderRadius: BorderRadius.circular(12)
                     ),
-                    hintText: 'Nome',
+                    hintText: 'Nome da Planta',
                     fillColor: Colors.grey[200],
                     filled: true               
                   ),
@@ -116,11 +111,10 @@ class _RegisterPageMyPlantState extends State<RegisterPageMyPlant> {
               ),
               const SizedBox(height: 10),
 
-              //Last Name
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: TextField(
-                  controller: _lastNameController,
+                  controller: _typePlantController,
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
                       borderSide: const BorderSide(color: Colors.white),
@@ -130,7 +124,7 @@ class _RegisterPageMyPlantState extends State<RegisterPageMyPlant> {
                       borderSide: const BorderSide(color:Color(0xFF76453B)),
                       borderRadius: BorderRadius.circular(12)
                     ),
-                    hintText: 'Sobrenome',
+                    hintText: 'Tipo da Planta',
                     fillColor: Colors.grey[200],
                     filled: true               
                   ),
@@ -142,7 +136,7 @@ class _RegisterPageMyPlantState extends State<RegisterPageMyPlant> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: TextField(
-                  controller: _emailcontroller,
+                  controller: _validityOfPlantingLandController,
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
                       borderSide: const BorderSide(color: Colors.white),
@@ -152,7 +146,7 @@ class _RegisterPageMyPlantState extends State<RegisterPageMyPlant> {
                       borderSide: const BorderSide(color:Color(0xFF76453B)),
                       borderRadius: BorderRadius.circular(12)
                     ),
-                    hintText: 'Email',
+                    hintText: 'Validade da terra',
                     fillColor: Colors.grey[200],
                     filled: true               
                   ),
@@ -160,11 +154,10 @@ class _RegisterPageMyPlantState extends State<RegisterPageMyPlant> {
               ),
               const SizedBox(height: 10),
               
-              //Password
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: TextField(
-                  controller: _passwordController,
+                  controller: _timeToWaterThePlantController,
                   obscureText: true,
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
@@ -175,29 +168,7 @@ class _RegisterPageMyPlantState extends State<RegisterPageMyPlant> {
                       borderSide: const BorderSide(color: Color(0xFF76453B)),
                       borderRadius: BorderRadius.circular(12)
                     ),
-                    hintText: 'Senha',
-                    fillColor: Colors.grey[200],
-                    filled: true               
-                  ),
-                )
-              ),
-              const SizedBox(height: 10),
-
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                child: TextField(
-                  controller: _confirmPasswordController,
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(color: Colors.white),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(color: Color(0xFF76453B)),
-                      borderRadius: BorderRadius.circular(12)
-                    ),
-                    hintText: 'Confirmar senha',
+                    hintText: 'Hora para regar a planta',
                     fillColor: Colors.grey[200],
                     filled: true               
                   ),
@@ -208,16 +179,15 @@ class _RegisterPageMyPlantState extends State<RegisterPageMyPlant> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: GestureDetector(
-                  onTap: signUp,
-                    
+                  onTap: ()=>{ FirebaseAuth.instance.signOut()},
                   child: Container(
                     padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
-                        color: Color(0xFF1E6F5C),
+                        color: const Color(0xFF1E6F5C),
                         borderRadius: BorderRadius.circular(12)),
                     child: const Center(
                       child: Text(
-                        'Cadastrar',
+                        'Salvar',
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
@@ -228,30 +198,10 @@ class _RegisterPageMyPlantState extends State<RegisterPageMyPlant> {
                   ),
                 ),
               ),
-              const SizedBox(height: 10),
-
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text('Já tenho cadastro!',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold
-                    )
-                  ),
-                  GestureDetector(
-                    onTap: widget.showLoginPage,
-                    child: const Text(
-                      ' Entrar',
-                      style: TextStyle(
-                        color: Color(0xFF008DDA), fontWeight: FontWeight.bold),
-                    ),
-                  )
-                ],
-              )
             ]
           ),
         ),
-      )
+      //)
     ));
   }
 }

@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:my_plant_flutter/components/side_bar_my_plant.dart';
 
 class HomePageMyPlant extends StatefulWidget {
   const HomePageMyPlant({super.key});
@@ -14,6 +15,24 @@ class _HomePageMyPlantState extends State<HomePageMyPlant> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFF7EEDD),
+      appBar: AppBar(
+        backgroundColor: const Color(0xFF76453B),
+        elevation: 0,
+        foregroundColor: const Color(0xFFF7EEDD),
+        title: Text("Olá ${user?.email}",
+        style: const TextStyle(
+          //fontSize: 40.00,
+          //fontFamily: 'Bebas Neue',
+          color: Color(0xFFF7EEDD),
+          fontWeight: FontWeight.bold,
+        )),
+      ),
+      drawer: SideBarMyPlant(
+        onSignOut: () { 
+          FirebaseAuth.instance.signOut();
+        },
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center, 
