@@ -35,13 +35,7 @@ class SideBarMyPlant extends StatelessWidget {
               _navigateToRegisterPlantPage(context);
             },
           ),
-          SideBarOptionsMyPlant(
-            text: 'Minhas Plantas', 
-            icon: Icons.grass_outlined, 
-            onTap: () {
-              print('Minhas Plantas');
-            },
-          ),
+          
           SideBarOptionsMyPlant(
             text: 'Sair', 
             icon: Icons.logout, 
@@ -52,16 +46,7 @@ class SideBarMyPlant extends StatelessWidget {
     );
   }
 
-  void toggleScreens() {
-    const loginPage = true;
-  }
-
   void _navigateToRegisterPlantPage(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => RegisterPlantPageMyPlant()));
   }
-
-  /*void _navigateToLoginPage(BuildContext context) {
-    FirebaseAuth.instance.signOut();
-    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => LoginPageMyPlant(showRegisterPage: () { toggleScreens; },)),(route) => false);
-  }*/
 }
