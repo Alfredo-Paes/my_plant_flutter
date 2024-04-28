@@ -6,6 +6,7 @@ import 'package:my_plant_flutter/models/myPlants.dart';
 import 'package:my_plant_flutter/models/plants.dart';
 
 import '../components/tile_my_plant.dart';
+import 'register_plant_page_my_plant.dart';
 
 class HomePageMyPlant extends StatefulWidget {
   const HomePageMyPlant({super.key});
@@ -91,9 +92,7 @@ class _HomePageMyPlantState extends State<HomePageMyPlant> {
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
-                } else if (snapshot.hasError) {
-                  return Center(child: Text('Erro: ${snapshot.error}'));
-                } else {
+                } else if (snapshot.data!.isNotEmpty) {
                   List<Plant> userPlants = snapshot.data!;
                   return ListView.builder(
                     itemCount: userPlants.length,
@@ -104,11 +103,43 @@ class _HomePageMyPlantState extends State<HomePageMyPlant> {
                       return TilePlantMyPlant(
                         plant: plant, 
                         onDelete: () {
-                          deletePlant(context, plant.id); // Chamada da função de exclusão com o ID da planta
+                          deletePlant(context, plant.id);
+                        },
+                        onEdit: (){
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => RegisterPlantPageMyPlant(
+                                plant: plant,
+                              ),
+                            ),
+                          );
                         },
                       );
                     },
                   );
+                } else if (snapshot.hasError) {
+                  return Center(child: Text('Erro: ${snapshot.error}'));
+                } else {
+                  return const Center(child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+                    SizedBox(
+                      width: 150,
+                      height: 150,
+                      child: Image(
+                        image: AssetImage('images/my_plant_mount_soil01.png'),
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      'Sem registro de plantas',
+                      style: TextStyle(
+                        fontSize: 40.00,
+                        fontFamily: 'Bebas Neue',
+                        color: Color(0xFF76453B),
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ]));
                 }
               },
             ),

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:my_plant_flutter/auth/main_page_my_plant.dart';
 import 'package:firebase_core/firebase_core.dart';
 
+
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -15,7 +16,6 @@ Future main() async {
       projectId: "my-plant-app-flutter"
     )
   ) :  await Firebase.initializeApp();
-
 
   runApp(const MyApp());
 }
