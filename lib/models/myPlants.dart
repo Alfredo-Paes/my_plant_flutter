@@ -1,29 +1,30 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:my_plant_flutter/models/plants.dart';
 
 class MyPlant {
-  final List<Plant> _myPlants = [
-    Plant(
-      namePlant: 'Planta 01', 
-      typePlant: 'Erva', 
-      validityOfPlantingLand: '31/12/2024', 
-      timeToWaterThePlant: '15:00' 
-    ),
-    Plant(
-      namePlant: 'Planta 02', 
-      typePlant: 'Arvore', 
-      validityOfPlantingLand: '31/07/2024', 
-      timeToWaterThePlant: '08:00' 
-    ),
-  ];
+  final String userID;
 
-  List<Plant> get myPlants => _myPlants;
+  MyPlant({required this.userID});
 
-  void editPlant(Plant item) {
-    _myPlants.add(item);
+  Future<List<Plant>> getUserPlants() async {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(userID)
+        .collection('plants')
+        .get();
+
+    List<Plant> userPlants = [];
+    querySnapshot.docs.forEach((doc) {
+      Plant plant = Plant(
+        id: doc.id,
+        namePlant: doc['namePlant'],
+        typePlant: doc['typePlant'],
+        validityOfPlantingLand: doc['validityOfPlantingLand'],
+        timeToWaterThePlant: doc['timeToWaterThePlant'],
+      );
+      userPlants.add(plant);
+    });
+
+    return userPlants;
   }
-
-  void removePlant(Plant item) {
-    _myPlants.remove(item);
-  }
-  
 }

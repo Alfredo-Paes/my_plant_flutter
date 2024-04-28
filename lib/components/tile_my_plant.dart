@@ -3,11 +3,55 @@ import 'package:my_plant_flutter/models/plants.dart';
 
 class TilePlantMyPlant extends StatelessWidget {
   final Plant plant;
+  final void Function() onDelete;
 
   const TilePlantMyPlant({
     super.key,
-    required this.plant
+    required this.plant,
+    required this.onDelete
   });
+
+  void showConfirmationDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: const Color(0xFFC51605),
+          title: const Text('Remover planta', 
+            style: TextStyle(
+              color: Color(0xFFF7EEDD),
+              fontWeight: FontWeight.bold,
+            )),
+          content: const Text('Tem certeza que deseja remover esta planta?', 
+            style: TextStyle(
+              color: Color(0xFFF7EEDD),
+            )),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Cancelar',
+              style: TextStyle(
+                color: Color(0xFFF7EEDD),
+              )),
+            ),
+            TextButton(
+              onPressed: () {
+                onDelete();
+                Navigator.of(context).pop();
+              },
+              child: const Text('Remover', 
+                style: TextStyle(
+                  color: Color(0xFFF7EEDD),
+                )
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,24 +122,24 @@ class TilePlantMyPlant extends StatelessWidget {
                     },
                     icon: const Icon(
                       Icons.edit, 
-                      color: Colors.white, // Cor do ícone
+                      color: Colors.white,
                     ), 
-                    label: const Text(''), // Label vazia para o primeiro botão
+                    label: const Text(''),
                     style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(const Color(0xFF41C9E2)), // Cor de fundo do botão
+                      backgroundColor: MaterialStateProperty.all<Color>(const Color(0xFF41C9E2)),
                       padding: MaterialStateProperty.all<EdgeInsetsGeometry>(const EdgeInsets.all(10)), // Espaçamento interno do botão
                     ),
                   ),
                   const SizedBox(width: 20), // Espaçamento entre os botões
                   ElevatedButton.icon(
                     onPressed: () {
-                      // Adicione a lógica do segundo botão aqui
+                      showConfirmationDialog(context);
                     },
                     icon: const Icon(
                       Icons.delete, 
-                      color: Colors.white, // Cor do ícone
+                      color: Colors.white,
                     ), 
-                    label: const Text(''), // Label vazia para o segundo botão
+                    label: const Text(''),
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all<Color>(const Color(0xFFC51605)), // Cor de fundo do botão
                       padding: MaterialStateProperty.all<EdgeInsetsGeometry>(const EdgeInsets.all(10)), // Espaçamento interno do botão
