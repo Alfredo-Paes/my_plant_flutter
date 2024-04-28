@@ -4,11 +4,13 @@ import 'package:my_plant_flutter/models/plants.dart';
 class TilePlantMyPlant extends StatelessWidget {
   final Plant plant;
   final void Function() onDelete;
+  final void Function() onEdit;
 
   const TilePlantMyPlant({
     super.key,
     required this.plant,
-    required this.onDelete
+    required this.onDelete,
+    required this.onEdit,
   });
 
   void showConfirmationDialog(BuildContext context) {
@@ -118,7 +120,7 @@ class TilePlantMyPlant extends StatelessWidget {
                 children: [
                   ElevatedButton.icon(
                     onPressed: () {
-                      // Adicione a lógica do primeiro botão aqui
+                      onEdit();
                     },
                     icon: const Icon(
                       Icons.edit, 

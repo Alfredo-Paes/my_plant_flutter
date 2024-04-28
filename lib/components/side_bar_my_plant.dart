@@ -1,9 +1,7 @@
 // ignore_for_file: unnecessary_const
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_plant_flutter/components/side_bar_options_my_plant.dart';
-import 'package:my_plant_flutter/pages/login_page_my_plant.dart';
 import 'package:my_plant_flutter/pages/register_plant_page_my_plant.dart';
 
 class SideBarMyPlant extends StatelessWidget {
@@ -47,6 +45,6 @@ class SideBarMyPlant extends StatelessWidget {
   }
 
   void _navigateToRegisterPlantPage(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => RegisterPlantPageMyPlant()));
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => const RegisterPlantPageMyPlant()));
   }
 }
