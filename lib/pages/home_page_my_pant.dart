@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_plant_flutter/components/side_bar_my_plant.dart';
@@ -15,12 +16,46 @@ class HomePageMyPlant extends StatefulWidget {
 
 class _HomePageMyPlantState extends State<HomePageMyPlant> {
   final user = FirebaseAuth.instance.currentUser;
+  late final MyPlant myPlant;
+  late Future<List<Plant>> _userPlantsFuture;
+
+
+  @override
+  void initState() {
+    super.initState();
+    myPlant = MyPlant(userID: user!.uid);
+    _userPlantsFuture = myPlant.getUserPlants();
+  }
+
+  void deletePlant(BuildContext context, String plantId) async {
+    try {
+      await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user!.uid)
+        .collection('plants')
+        .doc(plantId)
+        .delete();
+      setState(() {
+        _userPlantsFuture = myPlant.getUserPlants();
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Planta removida com sucesso!'),
+          backgroundColor: Color(0xFF1E6F5C),
+          duration: Duration(seconds: 5),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    } catch (e) {
+      print('Erro ao excluir planta: $e');
+    }
+  }
+
+
   
   @override
   Widget build(BuildContext context) {
     
-    final MyPlant myPlant = MyPlant();
-
     return Scaffold(
       backgroundColor: const Color(0xFFF7EEDD),
       appBar: AppBar(
@@ -51,13 +86,30 @@ class _HomePageMyPlantState extends State<HomePageMyPlant> {
           ),
           SizedBox(
             height: 550,
-            child: ListView.builder(
-              itemCount: myPlant.myPlants.length,
-              scrollDirection: Axis.horizontal,
-              padding: const EdgeInsets.all(15),
-              itemBuilder: (context, index) {
-                final plant = myPlant.myPlants[index];
-                return TilePlantMyPlant(plant: plant,);
+            child: FutureBuilder<List<Plant>>(
+              future: _userPlantsFuture,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return Center(child: Text('Erro: ${snapshot.error}'));
+                } else {
+                  List<Plant> userPlants = snapshot.data!;
+                  return ListView.builder(
+                    itemCount: userPlants.length,
+                    scrollDirection: Axis.horizontal,
+                    padding: const EdgeInsets.all(15),
+                    itemBuilder: (context, index) {
+                      final plant = userPlants[index];
+                      return TilePlantMyPlant(
+                        plant: plant, 
+                        onDelete: () {
+                          deletePlant(context, plant.id); // Chamada da função de exclusão com o ID da planta
+                        },
+                      );
+                    },
+                  );
+                }
               },
             ),
           )
